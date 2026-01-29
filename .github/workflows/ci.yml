@@ -121,10 +121,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Check for Dockerfile changes
+      - name: Check for Dockerfile changes or missing image
         id: check
         run: |
           if git diff --name-only ${{ github.event.before }}..${{ github.event.after }} | grep -q 'Dockerfile.ci-debian'; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif ! docker manifest inspect ${{ env.REGISTRY }}/${{ github.repository }}:ci-debian > /dev/null 2>&1; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Log in to Container Registry
@@ -150,10 +152,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Check for Dockerfile changes
+      - name: Check for Dockerfile changes or missing image
         id: check
         run: |
           if git diff --name-only ${{ github.event.before }}..${{ github.event.after }} | grep -q 'Dockerfile.ci-fedora'; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif ! docker manifest inspect ${{ env.REGISTRY }}/${{ github.repository }}:ci-fedora > /dev/null 2>&1; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Log in to Container Registry
@@ -179,10 +183,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Check for Dockerfile changes
+      - name: Check for Dockerfile changes or missing image
         id: check
         run: |
           if git diff --name-only ${{ github.event.before }}..${{ github.event.after }} | grep -q 'Dockerfile.ci-archlinux'; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif ! docker manifest inspect ${{ env.REGISTRY }}/${{ github.repository }}:ci-archlinux > /dev/null 2>&1; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Log in to Container Registry

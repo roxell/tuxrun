@@ -1,6 +1,6 @@
 import pytest
 
-from tuxrun.argparse import setup_parser
+from tuxrun.argparse import filter_artefacts, setup_parser
 
 
 def test_timeouts_parser():
@@ -29,3 +29,11 @@ def test_downloads_rejects_the_same_name_twice(capsys):
             ]
         )
     assert "downloaded twice" in capsys.readouterr().err
+
+
+def test_uboot_is_bios():
+    options = setup_parser().parse_args(
+        ["--device", "qemu-arm64", "--uboot", "https://example.com/u-boot.bin"]
+    )
+    assert options.bios == "https://example.com/u-boot.bin"
+    assert filter_artefacts(options)["bios"] == "https://example.com/u-boot.bin"

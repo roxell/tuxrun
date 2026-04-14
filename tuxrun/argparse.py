@@ -200,9 +200,10 @@ def setup_parser() -> argparse.ArgumentParser:
 
     group = parser.add_argument_group("artefacts")
 
-    def artefact(name):
+    def artefact(name, *aliases):
         group.add_argument(
             f"--{name}",
+            *[f"--{alias}" for alias in aliases],
             default=None,
             metavar="URL",
             type=pathurlnone,
@@ -210,7 +211,7 @@ def setup_parser() -> argparse.ArgumentParser:
         )
 
     artefact("ap-romfw")
-    artefact("bios")
+    artefact("bios", "uboot")
     artefact("bl1")
     artefact("ssh-identity-file")
     artefact("dtb")

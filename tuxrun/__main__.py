@@ -34,6 +34,7 @@ from tuxrun.utils import (  # noqa: E402
     get_new_output_dir,
     mask_secrets,
     notify,
+    save_reproducer,
     DEFAULT_DISPATCHER_DOWNLOAD_DIR,
 )
 from tuxrun.writer import Writer  # noqa: E402
@@ -527,6 +528,7 @@ def main() -> int:
                 options.metadata = cache_dir / "metadata.json"
             if options.results is None:
                 options.results = cache_dir / "results.json"
+            save_reproducer(cache_dir, sys.argv)
     elif options.log_file is None:
         options.log_file = "-"
 

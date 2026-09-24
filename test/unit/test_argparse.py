@@ -37,3 +37,19 @@ def test_uboot_is_bios():
     )
     assert options.bios == "https://example.com/u-boot.bin"
     assert filter_artefacts(options)["bios"] == "https://example.com/u-boot.bin"
+
+
+def test_filter_artefacts_with_a_dash_in_the_name():
+    options = setup_parser().parse_args(
+        [
+            "--device",
+            "fvp-morello-android",
+            "--ap-romfw",
+            "https://example.com/ap.bin",
+            "--scp-fw",
+            "https://example.com/scp.bin",
+        ]
+    )
+    artefacts = filter_artefacts(options)
+    assert artefacts["ap_romfw"] == "https://example.com/ap.bin"
+    assert artefacts["scp_fw"] == "https://example.com/scp.bin"

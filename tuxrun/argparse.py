@@ -35,19 +35,19 @@ def test_completer(**kwargs):
 ###########
 def filter_artefacts(options):
     keys = [
-        "ap-romfw",
+        "ap_romfw",
         "bios",
         "bl1",
         "dtb",
         "fip",
         "kernel",
-        "mcp-fw",
-        "mcp-romfw",
+        "mcp_fw",
+        "mcp_romfw",
         "modules",
         "overlays",
         "rootfs",
-        "scp-fw",
-        "scp-romfw",
+        "scp_fw",
+        "scp_romfw",
         "uefi",
     ]
     return {k: getattr(options, k) for k in vars(options) if k in keys}
